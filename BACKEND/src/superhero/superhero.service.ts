@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 
-import { CreateSuperheroDto } from './dto/create-superhero.dto';
+import { SuperheroDto } from './dto/superhero.dto';
 
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Superhero } from 'generated/prisma';
@@ -39,7 +39,7 @@ export class SuperheroService {
     }));
   }
 
-  async create(dto: CreateSuperheroDto): Promise<Superhero> {
+  async create(dto: SuperheroDto): Promise<Superhero> {
     const {
       nickname,
       real_name,
@@ -63,7 +63,7 @@ export class SuperheroService {
     return superhero;
   }
 
-  async update(id: string, dto: CreateSuperheroDto): Promise<Superhero> {
+  async update(id: string, dto: SuperheroDto): Promise<Superhero> {
     const {
       nickname,
       real_name,

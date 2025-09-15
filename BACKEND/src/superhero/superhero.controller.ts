@@ -8,7 +8,7 @@ import {
   Put,
 } from '@nestjs/common';
 import { SuperheroService } from './superhero.service';
-import { CreateSuperheroDto } from './dto/create-superhero.dto';
+import { SuperheroDto } from './dto/superhero.dto';
 
 @Controller('superheroes')
 export class SuperheroController {
@@ -25,12 +25,12 @@ export class SuperheroController {
   }
 
   @Post()
-  create(@Body() dto: CreateSuperheroDto) {
+  create(@Body() dto: SuperheroDto) {
     return this.superheroService.create(dto);
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() dto: CreateSuperheroDto) {
+  update(@Param('id') id: string, @Body() dto: SuperheroDto) {
     return this.superheroService.update(id, dto);
   }
 

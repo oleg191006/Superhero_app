@@ -19,9 +19,16 @@ type Props = {
 
 export default function SuperheroCard({ hero, onDelete }: Props) {
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const handleDelete = () => {
-    if (onDelete) onDelete(hero.id);
+    if (onDelete) {
+      setIsDeleting(true);
+
+      setTimeout(() => {
+        onDelete(hero.id);
+      }, 300);
+    }
   };
 
   const imageUrl =
@@ -30,7 +37,14 @@ export default function SuperheroCard({ hero, onDelete }: Props) {
       : "https://picsum.photos/200/300";
 
   return (
-    <Card sx={styles.card}>
+    <Card
+      sx={{
+        ...styles.card,
+        transition: "opacity 0.3s ease-in-out, transform 0.3s ease-in-out",
+        opacity: isDeleting ? 0 : 1,
+        transform: isDeleting ? "scale(0.95)" : "scale(1)",
+      }}
+    >
       {!imageLoaded && (
         <Skeleton
           variant="rectangular"

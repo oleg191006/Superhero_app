@@ -50,8 +50,8 @@ export default function SuperheroesList() {
     try {
       await superheroService.delete(id);
       await fetchHeroes();
-    } catch (err) {
-      console.error("Failed to delete superhero:", err);
+    } catch {
+      throw new Error("Failed to delete superhero");
     }
   };
 
@@ -92,6 +92,7 @@ export default function SuperheroesList() {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            minHeight: "600px",
           }}
         >
           <SuperheroesListHeader onOpenCreate={handleOpenCreate} />

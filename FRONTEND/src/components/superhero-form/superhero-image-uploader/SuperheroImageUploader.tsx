@@ -79,7 +79,7 @@ export default function ImageUpload({
         ))}
 
         {newFiles.map((file, index) => (
-          <Box key={index} sx={styles.imageBox}>
+          <Box key={`${index}-${file}`} sx={styles.imageBox}>
             <img
               src={URL.createObjectURL(file)}
               alt={`new-file-${index}`}

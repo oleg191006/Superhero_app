@@ -1,69 +1,94 @@
-# React + TypeScript + Vite
+# Superhero Management App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Superhero Management App** — це веб-застосунок для управління супергероями.  
+Проект складається з двох основних частин: бекенд на **Nest.js** та фронтенд на **React + TypeScript**.  
+Для зберігання даних використовується **PostgreSQL** (Docker), а для зображень — сервіс **Cloudinary**.
 
-Currently, two official plugins are available:
+## Технології
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+**Бекенд:** Nest.js, TypeScript, PostgreSQL, Prisma, Docker, Cloudinary  
+**Фронтенд:** React.js, TypeScript, Material UI, Axios, Zod
 
-## Expanding the ESLint configuration
+## Вимоги
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Перед початком роботи переконайтесь, що у вас встановлено: Node.js (18.x+), npm, Docker, Git
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Налаштування та запуск проекту
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+### 1. Клонування репозиторію
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+git clone https://github.com/oleg191006/Superhero_app.git
+cd Superhero_app
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+2. Налаштування бекенду (Nest.js)
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+cd BACKEND
 ```
+
+3.Створіть файл .env у корені папки backend:
+
+```bash
+# -------------------------
+# Database Configuration
+# -------------------------
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+POSTGRES_HOST=localhost
+POSTGRES_DATABASE=superhero
+DATABASE_URL="postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:5434/${POSTGRES_DATABASE}?schema=public"
+
+# -------------------------
+# Cloudinary Configuration
+# -------------------------
+CLOUDINARY_CLOUD_NAME=<ваш Cloudinary Cloud Name>
+CLOUDINARY_API_KEY=<ваш Cloudinary API Key>
+CLOUDINARY_API_SECRET=<ваш Cloudinary API Secret>
+
+# -------------------------
+# Frontend URL (CORS)
+# -------------------------
+CLIENT_URL=http://localhost:5173
+```
+
+4.Встановіть залежності та згенеруйте Prisma Client:
+
+```bash
+npm install
+npx prisma generate
+```
+
+5.Запустіть базу даних PostgreSQL через Docker:
+
+```bash
+docker-compose up -d
+```
+
+6.Запустіть бекенд:
+
+```bash
+npm run start:dev
+```
+
+3. Налаштування фронтенду (React)
+
+```bash
+cd FRONTEND
+```
+
+1.Створіть .env файл у корені frontend:
+
+```bash
+VITE_API_BASE_PATH=http://localhost:3000
+```
+
+2.Встановіть залежності та запустіть фронтенд:
+
+```bash
+npm install
+npm run dev
+```
+
+Фронтенд доступний за http://localhost:5173

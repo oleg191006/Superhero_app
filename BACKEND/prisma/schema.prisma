@@ -15,9 +15,18 @@ model Superhero {
   origin_description String
   superpowers        String
   catch_phrase       String
-  images             String[]
+  images             Image[]
   createdAt          DateTime @default(now()) @map("created_at")
   updatedAt          DateTime @updatedAt @map("updated_at")
 
   @@map("superheroes")
+}
+
+model Image {
+  id          String    @id @default(uuid())
+  url         String
+  superhero   Superhero @relation(fields: [superheroId], references: [id])
+  superheroId String
+
+  @@map("images")
 }

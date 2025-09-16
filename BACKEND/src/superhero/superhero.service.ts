@@ -17,7 +17,7 @@ export class SuperheroService {
     });
 
     if (!superhero)
-      throw new NotFoundException(`Superhero with id ${id} not found`);
+      throw new NotFoundException(ERROR_MESSAGES.SUPERHEROES.NOT_FOUND(id));
 
     return superhero;
   }

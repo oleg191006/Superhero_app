@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Typography, Grid, Button, Box, CircularProgress } from "@mui/material";
-import type { Superhero } from "../../types/superhero/superhero.interface";
+import type { Superhero } from "@app-types/superhero/superhero.interface";
 import { styles } from "./SuperheroGallery.styles";
 
 interface SuperheroGalleryProps {

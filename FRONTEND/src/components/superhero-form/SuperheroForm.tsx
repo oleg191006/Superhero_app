@@ -10,11 +10,11 @@ import {
 } from "@mui/material";
 
 import SuperheroFormFields from "./super-hero-form-fields/SuperheroFormFields";
-import type { Image } from "../../types/images/image.interface";
-import { imageService } from "../../services/images-service";
-import { superheroService } from "../../services/superhero-service";
-import type { Superhero } from "../../types/superhero/superhero.interface";
-import type { SuperheroDTO } from "../../types/superhero/superhero.type";
+import type { Image } from "@app-types/images/image.interface";
+import { imageService } from "@services/images-service";
+import { superheroService } from "@services/superhero-service";
+import type { Superhero } from "@app-types/superhero/superhero.interface";
+import type { SuperheroDTO } from "@app-types/superhero/superhero.type";
 
 interface SuperheroFormModalProps {
   open: boolean;

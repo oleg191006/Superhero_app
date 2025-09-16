@@ -1,7 +1,7 @@
 import { Box, TextField } from "@mui/material";
-import type { SuperheroDTO } from "../../../types/superhero/superhero.type";
+import type { SuperheroDTO } from "@app-types/superhero/superhero.type";
 import ImageUpload from "../superhero-image-uploader/SuperheroImageUploader";
-import type { Image } from "../../../types/images/image.interface";
+import type { Image } from "@app-types/images/image.interface";
 
 interface SuperheroFormFieldsProps {
   form: SuperheroDTO;

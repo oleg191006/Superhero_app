@@ -1,5 +1,5 @@
 import { Typography, Button, Box } from "@mui/material";
-import type { Superhero } from "../../types/superhero/superhero.interface";
+import type { Superhero } from "@app-types/superhero/superhero.interface";
 import { styles } from "./SuperheroInfo.styles";
 
 interface SuperheroInfoProps {

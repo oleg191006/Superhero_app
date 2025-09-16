@@ -1,40 +1,18 @@
 import { useParams } from "react-router-dom";
-import { useEffect, useState, useCallback } from "react";
+import { useState } from "react";
 import { Container, Paper, Box, CircularProgress, Alert } from "@mui/material";
-import { superheroService } from "../services/superhero-service";
-import type { Superhero } from "../types/superhero/superhero.interface";
-import SuperheroFormModal from "../components/superhero-form/SuperheroForm";
-import SuperheroInfo from "../components/superhero-info/SuperheroInfo";
-import SuperheroGallery from "../components/superhero-galerry/SuperheroGallery";
+import SuperheroFormModal from "@components/superhero-form/SuperheroForm";
+import SuperheroInfo from "@components/superhero-info/SuperheroInfo";
+import SuperheroGallery from "@components/superhero-galerry/SuperheroGallery";
+import { useSuperheroDetails } from "@hooks/useSuperheroDetails";
 
 export default function SuperheroDetails() {
   const { id } = useParams<{ id?: string }>();
-  const [hero, setHero] = useState<Superhero | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { hero, loading, error, fetchHero, handleSetMainImage } =
+    useSuperheroDetails(id);
+
   const [openModal, setOpenModal] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
-
-  const fetchHero = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      if (id) {
-        const data = await superheroService.getSuperheroById(id);
-        setHero(data);
-      }
-    } catch (err: unknown) {
-      if (err instanceof Error) setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  }, [id]);
-
-  useEffect(() => {
-    fetchHero();
-  }, [fetchHero]);
-
-  console.log("SuperheroDetails render, hero:", hero);
 
   if (!id) return <p>No ID provided</p>;
 
@@ -49,23 +27,6 @@ export default function SuperheroDetails() {
     setSubmitError(null);
     await fetchHero();
     setOpenModal(false);
-  };
-
-  const handleSetMainImage = async (imageId: string) => {
-    if (!hero) return;
-    try {
-      const newImages = [...hero.images];
-      const selectedImage = newImages.find((img) => img.id === imageId);
-      if (selectedImage) {
-        const remainingImages = newImages.filter((img) => img.id !== imageId);
-        const updatedImages = [selectedImage, ...remainingImages];
-        const updatedHero = { ...hero, images: updatedImages };
-        await superheroService.update(hero.id, updatedHero);
-        setHero(updatedHero);
-      }
-    } catch (err) {
-      console.error("Failed to set main image:", err);
-    }
   };
 
   if (loading)

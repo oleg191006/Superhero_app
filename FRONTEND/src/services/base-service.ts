@@ -11,7 +11,7 @@ import type {
 } from "../types/services/services.types";
 import { ResponseError } from "../exeptions";
 
-type RequestParams = {
+export type RequestParams = {
   data?: unknown;
   headers?: RawAxiosRequestHeaders;
   method: HttpMethod;

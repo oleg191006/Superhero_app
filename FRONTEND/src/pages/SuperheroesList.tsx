@@ -1,52 +1,36 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
-  Pagination,
   Container,
-  Typography,
-  Button,
-  Stack,
-  Box,
   Paper,
+  Box,
   CircularProgress,
   Alert,
+  Button,
 } from "@mui/material";
 
-import { superheroService } from "../services/superhero-service";
-import type { Superhero } from "../types/superhero/superhero.interface";
-import SuperheroCard from "../components/superhero-card/SuperheroCard";
-import SuperheroFormModal from "../components/superhero-form/SuperheroForm";
+import { superheroService } from "@services/superhero-service";
+import type { Superhero } from "@app-types/superhero/superhero.interface";
+import { useSuperheroesData } from "@hooks/useSuperheroesData";
+import SuperheroesListHeader from "@components/superheroes-list/header/SuperheroesListHeader";
+import SuperheroesGrid from "@components/superheroes-list/grid/SuperheroesGrid";
+import SuperheroesPagination from "@components/superheroes-list/pagination/SuperheroesPagination";
+import SuperheroFormModal from "@components/superhero-form/SuperheroForm";
 
 export default function SuperheroesList() {
-  const [allHeroes, setAllHeroes] = useState<Superhero[]>([]);
+  const {
+    superheroes: allHeroes,
+    loading,
+    error,
+    refetch: fetchHeroes,
+  } = useSuperheroesData();
+
   const [page, setPage] = useState(1);
   const perPage = 5;
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
   const [openModal, setOpenModal] = useState(false);
   const [editingHero, setEditingHero] = useState<Superhero | null>(null);
 
   const totalPages = Math.ceil(allHeroes.length / perPage);
   const currentHeroes = allHeroes.slice((page - 1) * perPage, page * perPage);
-
-  const fetchHeroes = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const data = await superheroService.getAllSuperheroes(1, 1000);
-      setAllHeroes(data || []);
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        setError(err.message);
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchHeroes();
-  }, []);
 
   const handleOpenCreate = () => {
     setEditingHero(null);
@@ -65,12 +49,7 @@ export default function SuperheroesList() {
   const handleDeleteHero = async (id: string) => {
     try {
       await superheroService.delete(id);
-      setAllHeroes((prev) => prev.filter((hero) => hero.id !== id));
-      const remainingHeroes = allHeroes.filter((hero) => hero.id !== id);
-      const newTotalPages = Math.ceil(remainingHeroes.length / perPage);
-      if (page > newTotalPages) {
-        setPage(newTotalPages);
-      }
+      await fetchHeroes();
     } catch (err) {
       console.error("Failed to delete superhero:", err);
     }
@@ -101,73 +80,35 @@ export default function SuperheroesList() {
   }
 
   return (
-    <Container sx={{ mt: 4, mb: 6, width: "1450px" }} maxWidth={false}>
-      <Paper
-        elevation={3}
-        sx={{
-          p: 4,
-          borderRadius: 3,
-          background: "#f9f9f9",
-          mb: 4,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
-        <Stack
-          direction="row"
-          justifyContent="space-between"
-          alignItems="center"
-          sx={{ mb: 4, width: "100%" }}
-        >
-          <Typography variant="h3" fontWeight="bold">
-            Superheroes
-          </Typography>
-          <Button variant="contained" size="large" onClick={handleOpenCreate}>
-            Add Superhero
-          </Button>
-        </Stack>
-        <Box
+    <>
+      <Container sx={{ mt: 4, mb: 6, width: "1450px" }} maxWidth={false}>
+        <Paper
+          elevation={3}
           sx={{
+            p: 4,
+            borderRadius: 3,
+            background: "#f9f9f9",
+            mb: 4,
             display: "flex",
-            flexDirection: "row",
-            gap: 2,
-            overflowX: "auto",
-            mt: 5,
-            justifyContent: "center",
-            width: "100%",
+            flexDirection: "column",
+            alignItems: "center",
           }}
         >
-          {currentHeroes.length > 0 ? (
-            currentHeroes.map((hero) => (
-              <Box
-                key={hero.id}
-                sx={{
-                  height: "300px",
-                  display: "flex",
-                  alignItems: "center",
-                  minWidth: "250px",
-                }}
-              >
-                <SuperheroCard hero={hero} onDelete={handleDeleteHero} />
-              </Box>
-            ))
-          ) : (
-            <Typography variant="h6" color="text.secondary">
-              No superheroes found.
-            </Typography>
-          )}
-        </Box>
-        <Stack alignItems="center" sx={{ mt: 4, width: "100%" }}>
-          <Pagination
-            count={totalPages}
-            page={page}
-            onChange={(_, value) => setPage(value)}
-            size="large"
-            color="primary"
+          <SuperheroesListHeader onOpenCreate={handleOpenCreate} />
+
+          <SuperheroesGrid
+            heroes={currentHeroes}
+            onDeleteHero={handleDeleteHero}
           />
-        </Stack>
-      </Paper>
+
+          <SuperheroesPagination
+            totalPages={totalPages}
+            currentPage={page}
+            onPageChange={setPage}
+          />
+        </Paper>
+      </Container>
+
       <SuperheroFormModal
         open={openModal}
         onClose={handleCloseModal}
@@ -175,6 +116,6 @@ export default function SuperheroesList() {
         onSuccess={handleSuccess}
         title={editingHero ? "Edit Superhero" : "Create Superhero"}
       />
-    </Container>
+    </>
   );
 }

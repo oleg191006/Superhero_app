@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { superheroService } from "@services/superhero-service";
-import type { Superhero } from "../types/superhero/superhero.interface";
+import type { Superhero } from "@app-types/superhero/superhero.interface";
 
 type UseSuperheroesDataHook = {
   superheroes: Superhero[];

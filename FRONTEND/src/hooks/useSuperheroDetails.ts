@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { superheroService } from "@services/superhero-service";
-import type { Superhero } from "../types/superhero/superhero.interface";
+import type { Superhero } from "@app-types/superhero/superhero.interface";
 
 export const useSuperheroDetails = (id?: string) => {
   const [hero, setHero] = useState<Superhero | null>(null);
@@ -40,7 +40,7 @@ export const useSuperheroDetails = (id?: string) => {
           setHero(updatedHero);
         }
       } catch (err) {
-        console.error("Failed to set main image:", err);
+        if (err instanceof Error) setError(err.message);
       }
     },
     [hero]

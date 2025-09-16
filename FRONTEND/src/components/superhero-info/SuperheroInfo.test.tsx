@@ -20,7 +20,6 @@ describe("SuperheroInfo", () => {
   it("should render superhero information correctly when an image is present", () => {
     render(<SuperheroInfo hero={mockSuperhero} onEdit={jest.fn()} />);
 
-    // Check if the main text content is rendered
     expect(
       screen.getByRole("heading", { name: /the flash/i })
     ).toBeInTheDocument();
@@ -37,7 +36,6 @@ describe("SuperheroInfo", () => {
       )
     ).toBeInTheDocument();
 
-    // Check if the image is rendered with correct alt text and src
     const image = screen.getByRole("img", { name: "The Flash" });
     expect(image).toBeInTheDocument();
     expect(image).toHaveAttribute("src", mockSuperhero.images[0].url);

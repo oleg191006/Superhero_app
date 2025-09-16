@@ -65,8 +65,8 @@ export const useSuperheroForm = ({
       await imageService.deleteImage(imageId);
       setExistingImages((prev) => prev.filter((img) => img.id !== imageId));
       onSuccess();
-    } catch (error) {
-      console.error("Failed to delete image:", error);
+    } catch {
+      throw new Error("Failed to delete image");
     } finally {
       setLoading(false);
     }

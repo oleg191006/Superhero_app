@@ -20,7 +20,7 @@ interface SuperheroFormModalProps {
   open: boolean;
   onClose: () => void;
   initialValues: Partial<Superhero> | null;
-  onSuccess: () => void; // Змінено: onSuccess тепер просто колбек без параметрів
+  onSuccess: () => void;
   title: string;
 }
 
@@ -45,7 +45,7 @@ export default function SuperheroFormModal({
   const [form, setForm] = useState<SuperheroFormState>(defaultValues);
   const [newFiles, setNewFiles] = useState<File[]>([]);
   const [existingImages, setExistingImages] = useState<Image[]>([]);
-  const [loading, setLoading] = useState(false); // Стан для лоадера
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (open) {

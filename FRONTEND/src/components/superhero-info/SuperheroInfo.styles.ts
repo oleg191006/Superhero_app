@@ -1,4 +1,3 @@
-// src/components/SuperheroInfo.styles.ts
 import type { SxProps, Theme } from "@mui/material";
 
 export const styles = {
@@ -9,23 +8,22 @@ export const styles = {
     alignItems: "flex-start",
   } as SxProps<Theme>,
 
-  // The main change is here: fixed width and height
   imageContainer: {
     flexShrink: 0,
-    width: 250, // Fixed width
-    height: 250, // Fixed height
+    width: 250,
+    height: 250,
     borderRadius: 8,
     border: "2px solid #1976d2",
-    overflow: "hidden", // Ensures the image doesn't overflow
-    display: "flex", // Centering the content
+    overflow: "hidden",
+    display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#e0e0e0", // A simple grey placeholder background
+    backgroundColor: "#e0e0e0",
   } as SxProps<Theme>,
 
   image: {
-    width: "100%", // The image should fill its container
-    height: "100%", // The image should fill its container
+    width: "100%",
+    height: "100%",
     objectFit: "cover",
   },
 

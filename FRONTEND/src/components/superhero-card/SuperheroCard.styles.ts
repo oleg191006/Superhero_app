@@ -1,7 +1,7 @@
 export const styles = {
   card: {
     minHeight: "250px",
-    width: 175,
+    width: 250,
     borderRadius: 2,
     boxShadow: 3,
     overflow: "hidden",

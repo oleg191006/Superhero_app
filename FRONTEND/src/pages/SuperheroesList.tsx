@@ -81,7 +81,7 @@ export default function SuperheroesList() {
 
   return (
     <>
-      <Container sx={{ mt: 4, mb: 6, width: "1450px" }} maxWidth={false}>
+      <Container sx={{ mt: 4, mb: 6, width: "1650px" }} maxWidth={false}>
         <Paper
           elevation={3}
           sx={{

@@ -17,7 +17,6 @@ export default function SuperheroesGrid({
         display: "flex",
         flexDirection: "row",
         gap: 2,
-        overflowX: "auto",
         mt: 5,
         justifyContent: "center",
         width: "100%",
@@ -28,10 +27,10 @@ export default function SuperheroesGrid({
           <Box
             key={hero.id}
             sx={{
-              height: "300px",
               display: "flex",
               alignItems: "center",
               minWidth: "250px",
+              flexShrink: 0,
             }}
           >
             <SuperheroCard hero={hero} onDelete={onDeleteHero} />

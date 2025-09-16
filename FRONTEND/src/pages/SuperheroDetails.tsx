@@ -1,13 +1,16 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import { Container, Paper, Box, CircularProgress, Alert } from "@mui/material";
 import SuperheroFormModal from "@components/superhero-form/SuperheroForm";
 import SuperheroInfo from "@components/superhero-info/SuperheroInfo";
 import SuperheroGallery from "@components/superhero-galerry/SuperheroGallery";
 import { useSuperheroDetails } from "@hooks/useSuperheroDetails";
+import { Button } from "@mui/material";
+import { ArrowBack } from "@mui/icons-material";
 
 export default function SuperheroDetails() {
   const { id } = useParams<{ id?: string }>();
+  const navigate = useNavigate();
   const { hero, loading, error, fetchHero, handleSetMainImage } =
     useSuperheroDetails(id);
 
@@ -27,6 +30,10 @@ export default function SuperheroDetails() {
     setSubmitError(null);
     await fetchHero();
     setOpenModal(false);
+  };
+
+  const handleGoBack = () => {
+    navigate("/");
   };
 
   if (loading)
@@ -61,6 +68,14 @@ export default function SuperheroDetails() {
           mb: 4,
         }}
       >
+        <Button
+          variant="outlined"
+          onClick={handleGoBack}
+          startIcon={<ArrowBack />}
+          sx={{ mb: 2 }}
+        >
+          Back to List
+        </Button>
         <SuperheroInfo hero={hero} onEdit={handleEdit} />
       </Paper>
 

@@ -4,6 +4,7 @@ import {
   UploadApiResponse,
   UploadApiErrorResponse,
 } from 'cloudinary';
+import { UPLOAD_ERRORS } from 'src/constants/error-message';
 
 export type CloudinaryResponse = UploadApiResponse;
 
@@ -11,7 +12,7 @@ export type CloudinaryResponse = UploadApiResponse;
 export class CloudinaryService {
   async uploadImage(file: Express.Multer.File): Promise<CloudinaryResponse> {
     if (!file || !file.buffer) {
-      throw new BadRequestException('File buffer is missing.');
+      throw new BadRequestException(UPLOAD_ERRORS.MISSING_FILE);
     }
 
     return new Promise<CloudinaryResponse>((resolve, reject) => {
@@ -20,14 +21,12 @@ export class CloudinaryService {
         (error: UploadApiErrorResponse, result: UploadApiResponse) => {
           if (error) {
             return reject(
-              new Error(error.message || 'Cloudinary upload failed.'),
+              new Error(error.message || UPLOAD_ERRORS.UPLOAD_FAILED_GENERIC),
             );
           }
 
           if (!result) {
-            return reject(
-              new Error('Cloudinary upload failed: No result received.'),
-            );
+            return reject(new Error(UPLOAD_ERRORS.UPLOAD_FAILED_NO_RESULT));
           }
 
           resolve(result);

@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AppService } from './app.service';
 import { PrismaModule } from './prisma/prisma.module';
 import { ConfigModule } from '@nestjs/config';
 import { SuperheroModule } from './superhero/superhero.module';
@@ -22,6 +21,5 @@ import { CloudinaryModule } from './cloudinary/cloudinary.module';
     SuperheroModule,
     ImagesModule,
   ],
-  providers: [AppService],
 })
 export class AppModule {}

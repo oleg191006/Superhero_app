@@ -4,6 +4,7 @@ import { SuperheroDto } from './dto/superhero.dto';
 
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Superhero } from 'generated/prisma';
+import { ERROR_MESSAGES } from 'src/constants/error-message';
 
 @Injectable()
 export class SuperheroService {
@@ -76,7 +77,7 @@ export class SuperheroService {
     });
 
     if (!superhero)
-      throw new NotFoundException(`Superhero with id ${id} not found`);
+      throw new NotFoundException(ERROR_MESSAGES.SUPERHEROES.NOT_FOUND(id));
 
     await this.prismaService.image.deleteMany({
       where: { superheroId: id },

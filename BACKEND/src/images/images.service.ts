@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { ImageDto } from './dto/images.dto';
+import { ERROR_MESSAGES } from 'src/constants/error-message';
 
 @Injectable()
 export class ImagesService {
@@ -45,7 +46,7 @@ export class ImagesService {
     });
 
     if (!image) {
-      throw new NotFoundException(`Image with id ${id} not found`);
+      throw new NotFoundException(ERROR_MESSAGES.IMAGES.NOT_FOUND(id));
     }
 
     await this.prismaService.image.delete({

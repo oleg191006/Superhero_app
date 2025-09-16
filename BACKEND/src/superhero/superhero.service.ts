@@ -12,6 +12,7 @@ export class SuperheroService {
   async getSuperheroById(id: string): Promise<Superhero> {
     const superhero = await this.prismaService.superhero.findUnique({
       where: { id },
+      include: { images: true },
     });
 
     if (!superhero)
@@ -20,12 +21,8 @@ export class SuperheroService {
     return superhero;
   }
 
-  async getAllSuperheroes(page = 1, limit = 5) {
-    const skip = (page - 1) * limit;
-
+  async getAllSuperheroes() {
     const superheroes = await this.prismaService.superhero.findMany({
-      skip,
-      take: limit,
       select: {
         id: true,
         nickname: true,
@@ -33,68 +30,60 @@ export class SuperheroService {
       },
     });
 
-    return superheroes.map((hero) => ({
-      ...hero,
-      image: hero.images[0],
-    }));
+    return superheroes;
   }
 
   async create(dto: SuperheroDto): Promise<Superhero> {
-    const {
-      nickname,
-      real_name,
-      origin_description,
-      superpowers,
-      catch_phrase,
-      images,
-    } = dto;
+    const { images, ...superheroData } = dto;
 
-    const superhero = await this.prismaService.superhero.create({
+    const superhero = this.prismaService.superhero.create({
       data: {
-        nickname,
-        real_name,
-        origin_description,
-        superpowers,
-        catch_phrase,
-        images,
+        ...superheroData,
+        images: images
+          ? {
+              create: images.map((image) => ({ url: image.url })),
+            }
+          : undefined,
       },
+      include: { images: true },
     });
 
     return superhero;
   }
 
   async update(id: string, dto: SuperheroDto): Promise<Superhero> {
-    const {
-      nickname,
-      real_name,
-      origin_description,
-      superpowers,
-      catch_phrase,
-      images,
-    } = dto;
+    const { images, ...superheroData } = dto;
 
-    const superhero = await this.prismaService.superhero.update({
+    return this.prismaService.superhero.update({
       where: { id },
       data: {
-        nickname,
-        real_name,
-        origin_description,
-        superpowers,
-        catch_phrase,
-        images,
+        ...superheroData,
+        images: images
+          ? {
+              deleteMany: {},
+              create: images.map((image) => ({ url: image.url })),
+            }
+          : undefined,
       },
+      include: { images: true },
     });
-
-    return superhero;
   }
 
-  async delete(id: string): Promise<void> {
+  async delete(id: string) {
     const superhero = await this.prismaService.superhero.findUnique({
       where: { id },
+      include: { images: true },
     });
+
     if (!superhero)
       throw new NotFoundException(`Superhero with id ${id} not found`);
 
-    await this.prismaService.superhero.delete({ where: { id } });
+    await this.prismaService.image.deleteMany({
+      where: { superheroId: id },
+    });
+
+    return this.prismaService.superhero.delete({
+      where: { id },
+    });
   }
 }

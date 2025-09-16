@@ -1,4 +1,5 @@
 import { IsNotEmpty, IsString } from 'class-validator';
+import { Image } from 'generated/prisma';
 
 export class SuperheroDto {
   @IsNotEmpty()
@@ -21,6 +22,5 @@ export class SuperheroDto {
   @IsString()
   catch_phrase: string;
 
-  @IsString({ each: true })
-  images: string[];
+  images: Image[];
 }

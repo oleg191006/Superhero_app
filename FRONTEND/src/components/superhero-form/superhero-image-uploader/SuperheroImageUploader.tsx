@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { Box, IconButton, Button } from "@mui/material";
+import { Box, IconButton, Button, Typography } from "@mui/material";
 import { Delete, AddPhotoAlternateOutlined } from "@mui/icons-material";
 import { styles } from "./SuperheroImageUploader.styles";
 
@@ -14,6 +14,7 @@ interface ImageUploadProps {
   onFileChange: (files: FileList) => void;
   onRemoveExistingImage: (id: string) => void;
   onRemoveNewFile: (index: number) => void;
+  error?: boolean;
 }
 
 export default function ImageUpload({
@@ -22,6 +23,7 @@ export default function ImageUpload({
   onFileChange,
   onRemoveExistingImage,
   onRemoveNewFile,
+  error,
 }: ImageUploadProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -49,6 +51,12 @@ export default function ImageUpload({
       >
         Add Image
       </Button>
+
+      {error && (
+        <Typography variant="body2" color="error" sx={{ mt: 1 }}>
+          {error}
+        </Typography>
+      )}
 
       <Box sx={styles.container}>
         {existingImages.map((img) => (

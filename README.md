@@ -92,3 +92,9 @@ npm run dev
 ```
 
 Фронтенд доступний за http://localhost:5173
+
+## Демонстрація роботи програми
+
+https://github.com/user-attachments/assets/0fe2e509-418d-4d00-ab76-e0153c869fca
+
+

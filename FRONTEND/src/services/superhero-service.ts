@@ -15,12 +15,11 @@ export const superheroService = {
     });
   },
 
-  getAllSuperheroes: (page = 1, limit = 5) => {
+  getAllSuperheroes: () => {
     return baseService.request<Superhero[]>({
       method: "GET",
       url: getFullUrl({
         pathname: URLs.superheroes.getAll,
-        parameters: { page, limit },
       }),
     });
   },

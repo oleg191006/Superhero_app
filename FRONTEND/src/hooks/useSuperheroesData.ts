@@ -18,7 +18,7 @@ export const useSuperheroesData = (): UseSuperheroesDataHook => {
     setLoading(true);
     setError(null);
     try {
-      const data = await superheroService.getAllSuperheroes(1, 1000);
+      const data = await superheroService.getAllSuperheroes();
       setSuperheroes(data || []);
     } catch (err: unknown) {
       if (err instanceof Error) {

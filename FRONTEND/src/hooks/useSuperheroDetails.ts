@@ -10,6 +10,7 @@ export const useSuperheroDetails = (id?: string) => {
   const fetchHero = useCallback(async () => {
     setLoading(true);
     setError(null);
+
     try {
       if (id) {
         const data = await superheroService.getSuperheroById(id);
@@ -30,14 +31,14 @@ export const useSuperheroDetails = (id?: string) => {
     async (imageId: string) => {
       if (!hero) return;
       try {
-        const newImages = [...hero.images];
-        const selectedImage = newImages.find((img) => img.id === imageId);
+        const selectedImage = hero.images.find((img) => img.id === imageId);
         if (selectedImage) {
-          const remainingImages = newImages.filter((img) => img.id !== imageId);
+          const remainingImages = hero.images.filter(
+            (img) => img.id !== imageId
+          );
           const updatedImages = [selectedImage, ...remainingImages];
-          const updatedHero = { ...hero, images: updatedImages };
-          await superheroService.update(hero.id, updatedHero);
-          setHero(updatedHero);
+
+          setHero({ ...hero, images: updatedImages });
         }
       } catch (err) {
         if (err instanceof Error) setError(err.message);

@@ -1,4 +1,4 @@
-import type { ErrorResponse } from "../types/services/services.types";
+import type { ErrorResponse } from "@app-types/services/services.types";
 
 class ResponseError extends Error {
   code?: string;

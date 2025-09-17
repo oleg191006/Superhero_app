@@ -15,6 +15,7 @@ import SuperheroesListHeader from "@components/superheroes-list/header/Superhero
 import SuperheroesGrid from "@components/superheroes-list/grid/SuperheroesGrid";
 import SuperheroesPagination from "@components/superheroes-list/pagination/SuperheroesPagination";
 import SuperheroFormModal from "@components/superhero-form/SuperheroForm";
+import { usePagination } from "@hooks/usePagination"; // New import
 
 export default function SuperheroesList() {
   const {
@@ -24,13 +25,16 @@ export default function SuperheroesList() {
     refetch: fetchHeroes,
   } = useSuperheroesData();
 
-  const [page, setPage] = useState(1);
   const perPage = 5;
+  const {
+    page,
+    setPage,
+    totalPages,
+    currentItems: currentHeroes,
+  } = usePagination(allHeroes, perPage);
+
   const [openModal, setOpenModal] = useState(false);
   const [editingHero, setEditingHero] = useState<Superhero | null>(null);
-
-  const totalPages = Math.ceil(allHeroes.length / perPage);
-  const currentHeroes = allHeroes.slice((page - 1) * perPage, page * perPage);
 
   const handleOpenCreate = () => {
     setEditingHero(null);

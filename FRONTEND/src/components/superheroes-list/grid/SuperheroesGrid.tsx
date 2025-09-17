@@ -1,6 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import type { Superhero } from "@app-types/superhero/superhero.interface";
 import SuperheroCard from "@components/superhero-card/SuperheroCard";
+import { styles } from "./SuperheroeGrid.styles";
 
 interface SuperheroesGridProps {
   heroes: Superhero[];
@@ -12,34 +13,27 @@ export default function SuperheroesGrid({
   onDeleteHero,
 }: SuperheroesGridProps) {
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "row",
-        gap: 2,
-        mt: 5,
-        justifyContent: "center",
-        width: "100%",
-      }}
-    >
+    <Box sx={styles.container}>
       {heroes.length > 0 ? (
         heroes.map((hero) => (
-          <Box
-            key={hero.id}
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              minWidth: "250px",
-              flexShrink: 0,
-            }}
-          >
+          <Box key={hero.id} sx={styles.heroWrapper}>
             <SuperheroCard hero={hero} onDelete={onDeleteHero} />
           </Box>
         ))
       ) : (
-        <Typography variant="h6" color="text.secondary">
-          No superheroes found.
-        </Typography>
+        <Box
+          sx={{
+            flexGrow: 1,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
+          }}
+        >
+          <Typography variant="h6" color="text.secondary">
+            No superheroes found.
+          </Typography>
+        </Box>
       )}
     </Box>
   );

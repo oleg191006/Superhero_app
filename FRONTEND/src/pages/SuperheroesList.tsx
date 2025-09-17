@@ -15,7 +15,7 @@ import SuperheroesListHeader from "@components/superheroes-list/header/Superhero
 import SuperheroesGrid from "@components/superheroes-list/grid/SuperheroesGrid";
 import SuperheroesPagination from "@components/superheroes-list/pagination/SuperheroesPagination";
 import SuperheroFormModal from "@components/superhero-form/SuperheroForm";
-import { usePagination } from "@hooks/usePagination"; // New import
+import { usePagination } from "@hooks/usePagination";
 
 export default function SuperheroesList() {
   const {

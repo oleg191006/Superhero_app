@@ -14,7 +14,15 @@ export default function SuperheroesListHeader({
       alignItems="center"
       sx={{ mb: 4, width: "100%" }}
     >
-      <Typography variant="h3" fontWeight="bold">
+      <Typography
+        variant="h3"
+        fontWeight="bold"
+        sx={{
+          background: "linear-gradient(45deg, #1976d2 30%, #42a5f5 90%)",
+          WebkitBackgroundClip: "text",
+          WebkitTextFillColor: "transparent",
+        }}
+      >
         Superheroes
       </Typography>
       <Button variant="contained" size="large" onClick={onOpenCreate}>
